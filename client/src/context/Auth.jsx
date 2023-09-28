@@ -1,6 +1,6 @@
-import { createContext, useState, useEffect } from 'react';
-import axios from '../axiosInstance';
-import { useNavigate } from 'react-router-dom';
+import { createContext, useState, useEffect } from "react";
+import axios from "../axiosinstance";
+import { useNavigate } from "react-router-dom";
 export const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
@@ -15,30 +15,30 @@ const AuthProvider = ({ children }) => {
   };
   useEffect(() => {
     axios
-      .get('auth/currentUser')
-      .then(res => setState(res.data.user, false, null))
-      .catch(error => {
+      .get("auth/currentUser")
+      .then((res) => setState(res.data.user, false, null))
+      .catch((error) => {
         setState(null, false, null);
       });
   }, []);
 
-  const login = async user => {
+  const login = async (user) => {
     setLoading(true);
     try {
-      const res = await axios.post('auth/login', user);
+      const res = await axios.post("auth/login", user);
       setState(res.data.user, false, null);
-      navigate('/');
+      navigate("/");
     } catch (error) {
       console.log(error.response);
       setState(null, false, error.response.data);
     }
   };
-  const register = async user => {
+  const register = async (user) => {
     setLoading(true);
     try {
-      const res = await axios.post('auth/register', user);
+      const res = await axios.post("auth/register", user);
       setState(res.data.user, false, null);
-      navigate('/');
+      navigate("/");
     } catch (error) {
       console.log(error.response);
       setState(null, false, error.response.data.errors);
@@ -47,9 +47,9 @@ const AuthProvider = ({ children }) => {
   const logout = async () => {
     setLoading(true);
     try {
-      const res = await axios.post('auth/logout', {});
+      const res = await axios.post("auth/logout", {});
       setState(null, false, null);
-      navigate('/');
+      navigate("/");
       window.location.reload();
     } catch (error) {
       console.log(error.response);
@@ -57,7 +57,9 @@ const AuthProvider = ({ children }) => {
     }
   };
   return (
-    <AuthContext.Provider value={{ user, loading, errors, login, register, logout }}>
+    <AuthContext.Provider
+      value={{ user, loading, errors, login, register, logout }}
+    >
       {children}
     </AuthContext.Provider>
   );
